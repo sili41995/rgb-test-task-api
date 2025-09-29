@@ -50,7 +50,15 @@ class PostService {
     return result;
   }
 
-  async getById(id: number): Promise<Post> {
+  async checkNotExists(title: string): Promise<void> {
+    const result = await this.findByTitle(title);
+
+    if (result) {
+      throw new ConflictException(ErrorMessages.duplicatePostErr);
+    }
+  }
+
+  async checkIsExists(id: number): Promise<Post> {
     const result = await this.prisma.post.findUnique({ where: { id } });
 
     if (!result) {
@@ -60,12 +68,10 @@ class PostService {
     return result;
   }
 
-  async checkNotExists(title: string): Promise<void> {
-    const result = await this.findByTitle(title);
+  async getById(id: number): Promise<Post> {
+    const result = await this.checkIsExists(id);
 
-    if (result) {
-      throw new ConflictException(ErrorMessages.duplicatePostErr);
-    }
+    return result;
   }
 
   async add(data: CreatePostDto): Promise<Post> {
@@ -79,6 +85,8 @@ class PostService {
   }
 
   async updateById({ id, data }: IUpdateByIdProps): Promise<Post> {
+    await this.checkIsExists(id);
+
     const result = await this.prisma.post.update({
       where: { id },
       data,
@@ -88,6 +96,8 @@ class PostService {
   }
 
   async deleteById(id: number): Promise<Post> {
+    await this.checkIsExists(id);
+
     const result = await this.prisma.post.delete({
       where: { id },
     });
