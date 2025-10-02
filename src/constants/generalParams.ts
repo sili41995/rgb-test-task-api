@@ -1,5 +1,5 @@
 const enum GeneralParams {
-  recordLimit = 20,
+  recordLimit = 2,
 }
 
 export default GeneralParams;
