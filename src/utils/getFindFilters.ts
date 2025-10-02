@@ -1,7 +1,8 @@
 import { GeneralParams, SearchQueryKeys } from '@src/constants';
-import { IFindFilters, SearchQuery } from '@src/types/types.types';
+import { GetPostsQueryDto } from '@src/entities/post/dto/post.dto';
+import { IFindFilters } from '@src/types/types.types';
 
-const getFindFilters = (query: SearchQuery): IFindFilters => {
+const getFindFilters = (query: GetPostsQueryDto): IFindFilters => {
   const pageQuery = query[SearchQueryKeys.page];
   const limitQuery = query[SearchQueryKeys.limit];
   const take = limitQuery ? Number(limitQuery) : GeneralParams.recordLimit;

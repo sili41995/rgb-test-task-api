@@ -1,6 +1,6 @@
 import { SearchQueryKeys } from '@src/constants';
-import { SearchQuery } from '@src/types/types.types';
 import getFindFilters from './getFindFilters';
+import { GetPostsQueryDto } from '@src/entities/post/dto/post.dto';
 
 interface IPostFindFilters {
   skip: number;
@@ -9,7 +9,7 @@ interface IPostFindFilters {
 }
 
 const getSubscriberAccountsFindFilters = (
-  query: SearchQuery,
+  query: GetPostsQueryDto,
 ): IPostFindFilters => {
   const { skip, take } = getFindFilters(query);
 
